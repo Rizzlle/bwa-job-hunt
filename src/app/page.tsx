@@ -1,3 +1,4 @@
+import BannerSignUp from "@/components/organisms/BannerSignUp";
 import Category from "@/components/organisms/Category";
 import Clients from "@/components/organisms/Clients";
 import Hero from "@/components/organisms/Hero";
@@ -8,6 +9,7 @@ export default function Home() {
 			<Hero />
 			<Clients />
 			<Category />
+			<BannerSignUp />
 		</div>
 	);
 }
