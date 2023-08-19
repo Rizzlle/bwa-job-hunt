@@ -40,7 +40,13 @@ const JobItem: FC<JobItemProps> = ({
 			</div>
 			<div className="space-x-2">
 				{categories.map((item: string, i: number) => (
-					<Badge key={i}>{item}</Badge>
+					<Badge
+						variant="outline"
+						className="rounded border-primary bg-primary/5 text-primary"
+						key={i}
+					>
+						{item}
+					</Badge>
 				))}
 			</div>
 		</div>
