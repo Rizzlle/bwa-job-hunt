@@ -1,6 +1,6 @@
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React, { FC } from "react";
-import { Button } from "../../button";
 
 interface NavbarProps {}
 
