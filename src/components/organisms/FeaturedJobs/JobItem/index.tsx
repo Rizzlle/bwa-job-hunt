@@ -18,7 +18,7 @@ const JobItem: FC<JobItemProps> = ({
 		<div className="border border-border p-6 cursor-pointer">
 			<div className="flex flex-row justify-between items-start">
 				<Image src={image} alt={image} width={48} height={48} />
-				<span className="px-4 py-1 border text-xs font-semibold text-primary border-primary">
+				<span className="px-4 py-1 rounded border text-xs font-semibold text-primary border-primary">
 					{jobType}
 				</span>
 			</div>
