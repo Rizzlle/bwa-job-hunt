@@ -1,9 +1,8 @@
+import Footer from "@/components/layouts/Footer";
 import Navbar from "@/components/layouts/Navbar";
-import "./globals.css";
 import type { Metadata } from "next";
 import { Epilogue } from "next/font/google";
-import Image from "next/image";
-import Footer from "@/components/layouts/Footer";
+import "../globals.css";
 
 const epilogue = Epilogue({ subsets: ["latin-ext"] });
 
@@ -23,9 +22,7 @@ export default function RootLayout({
 				className={`${epilogue.className} relative overflow-x-hidden`}
 			>
 				<Navbar />
-				<main>
-					{children}
-				</main>
+				<main>{children}</main>
 				<Footer />
 			</body>
 		</html>
