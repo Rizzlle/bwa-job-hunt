@@ -1,3 +1,9 @@
+export type companyJobType = {
+	id: string;
+	name: string;
+	totalJobs: number;
+};
+
 export type JobType = {
 	image: string;
 	jobType: string;
