@@ -6,7 +6,7 @@ import React, { FC } from "react";
 interface JobItemProps extends JobType {}
 
 const JobItem: FC<JobItemProps> = ({
-	categories,
+	category,
 	desc,
 	image,
 	jobType,
@@ -37,7 +37,7 @@ const JobItem: FC<JobItemProps> = ({
 					variant="outline"
 					className="rounded border-primary bg-primary/5 text-primary"
 				>
-					{categories.name}
+					{category.name}
 				</Badge>
 			</div>
 		</div>

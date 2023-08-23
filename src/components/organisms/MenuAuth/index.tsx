@@ -21,7 +21,7 @@ const MenuAuth: FC<MenuAuthProps> = ({}) => {
 					<div className="font-semibold text-primary mr-2">
 						Hai, {session?.user.name}
 					</div>
-					<BiSolidDownArrow classname="text-sm" />
+					<BiSolidDownArrow className="text-sm" />
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
