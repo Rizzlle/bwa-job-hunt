@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 import bcrypt from "bcryptjs";
-import { companyJobType } from "@/types";
+import { JobType, categoryJobType } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -44,7 +44,30 @@ export const parsingCategories = (
 				name: item.name,
 				totalJobs: item._count.Job,
 			};
-		}) as companyJobType[];
+		}) as categoryJobType[];
+	}
+
+	return [];
+};
+
+export const parsingJobs = (data: any, isLoading: boolean, error: any) => {
+	if (!isLoading && !error && data) {
+		return data.map((item: any) => {
+			const job: JobType = {
+				id: item.id,
+				name: item.roles,
+				applicants: item.applicants,
+				categories: item.CategoryJob,
+				desc: item.description,
+				jobType: item.jobType,
+				image: "/images/company2.png",
+				location: item.Company?.Companyoverview[0]?.location,
+				needs: item.needs,
+				type: item.CategoryJob.name,
+			};
+
+			return job;
+		}) as JobType[];
 	}
 
 	return [];
