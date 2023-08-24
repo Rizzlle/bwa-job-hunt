@@ -2,9 +2,9 @@ import CompanyCard from "@/components/organisms/CompanyCard";
 import FormFilterDynamic from "@/components/organisms/FormFilterDynamic";
 import FormSearchDynamic from "@/components/organisms/FormSearchDynamic";
 import JobCard from "@/components/organisms/JobCard";
-import { JobType, filterFormType } from "@/types";
+import { filterFormType } from "@/types";
 import Image from "next/image";
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface ExploreDataContainerProps {
 	formFilter: any;
