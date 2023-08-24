@@ -20,44 +20,106 @@ import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import UploadField from "../UploadField";
+import { useSession } from "next-auth/react";
+import { supabaseUploadFile } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
-interface FormModalApplyProps {}
+interface FormModalApplyProps {
+	image: string | undefined;
+	roles: string | undefined;
+	location: string | undefined;
+	jobType: string | undefined;
+	id: string | undefined;
+}
 
-const FormModalApply: FC<FormModalApplyProps> = ({}) => {
+const FormModalApply: FC<FormModalApplyProps> = ({
+	image,
+	jobType,
+	location,
+	roles,
+	id,
+}) => {
 	const form = useForm<z.infer<typeof formApplySchema>>({
 		resolver: zodResolver(formApplySchema),
 	});
 
-	const onSubmit = (val: z.infer<typeof formApplySchema>) => {
-		console.log("asasa");
+	const { toast } = useToast();
+	const router = useRouter();
 
-		console.log(val);
+	const { data: session } = useSession();
+
+	const onSubmit = async (val: z.infer<typeof formApplySchema>) => {
+		try {
+			const { filename, error } = await supabaseUploadFile(
+				val.resume,
+				"applicant"
+			);
+
+			const reqData = {
+				userId: session?.user.id,
+				jobId: id,
+				resume: filename,
+				coverLetter: val.coverLetter,
+				linkedIn: val.linkedIn,
+				phone: val.phone,
+				portfolio: val.portfolio,
+				previousJobTitle: val.previousJobTitle,
+			};
+
+			if (error) {
+				throw "Error";
+			}
+
+			await fetch("/api/jobs/apply", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(reqData),
+			});
+
+			await toast({
+				title: "Success",
+				description: "Apply job success",
+			});
+
+			router.replace("/");
+		} catch (error) {
+			console.log(error);
+			toast({
+				title: "Error",
+				description: "Please try again",
+			});
+		}
 	};
 
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button size="lg" className="text-lg px-12 py-6">
-					Apply
-				</Button>
+				{session ? (
+					<Button size="lg" className="text-lg px-12 py-6">
+						Apply
+					</Button>
+				) : (
+					<Button variant="outline" disabled>
+						Sign In First
+					</Button>
+				)}
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[600px]">
 				<div>
 					<div className="inline-flex items-center gap-4">
 						<div>
 							<Image
-								src="/images/company2.png"
-								alt="/images/company2.png"
+								src={image!!}
+								alt={image!!}
 								width={60}
 								height={60}
 							/>
 						</div>
 						<div>
-							<div className="text-lg font-semibold">
-								Social Media Assistant
-							</div>
+							<div className="text-lg font-semibold">{roles}</div>
 							<div className="text-gray-500">
-								Agency . Paris, France . Full-Time
+								{location} . {jobType}
 							</div>
 						</div>
 					</div>

@@ -19,12 +19,13 @@ const JobCard: FC<JobCardProps> = ({
 	name,
 	needs,
 	type,
+	id,
 }) => {
 	const router = useRouter();
 
 	return (
 		<div
-			onClick={() => router.push("/detail/job/1")}
+			onClick={() => router.push("/detail/job/" + id)}
 			className="w-full border p-6 border-border flex flex-row justify-between items-center"
 		>
 			<div className="flex flex-row items-start gap-6">
