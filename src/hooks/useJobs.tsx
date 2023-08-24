@@ -18,7 +18,8 @@ const useJobs = (filter?: string[]) => {
 
 	const { data, error, isLoading, mutate } = useSWR(
 		`${JOB_PATH}?category=${paramsCategory}`,
-		fetcher
+		fetcher,
+		{ revalidateOnMount: false }
 	);
 
 	const [jobs, setJobs] = useState<JobType[]>([]);

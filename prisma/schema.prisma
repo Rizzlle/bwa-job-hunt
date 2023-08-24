@@ -7,20 +7,6 @@ datasource db {
   url      = env("POSTGRES_PRISMA_URL")
 }
 
-model Applicant {
-  id               String @id
-  userId           String
-  jobId            String
-  coverLetter      String
-  linkedIn         String
-  portfolio        String
-  phone            String
-  previousJobTitle String
-  resume           String
-  Job              Job    @relation(fields: [jobId], references: [id])
-  User             User   @relation(fields: [userId], references: [id])
-}
-
 model CategoryJob {
   id   String @id
   name String
@@ -75,9 +61,9 @@ model Companyoverview {
 }
 
 model Job {
-  id             String      @id
+  id             String       @id
   roles          String
-  datePosted     DateTime    @default(now())
+  datePosted     DateTime     @default(now())
   dueDate        DateTime
   jobType        String
   applicants     Int
@@ -92,16 +78,12 @@ model Job {
   niceToHaves    String
   benefits       Json
   companyId      String?
-  categoryId     String
-  Applicant      Applicant[]
-  CategoryJob    CategoryJob @relation(fields: [categoryId], references: [id])
-  Company        Company?    @relation(fields: [companyId], references: [id])
+  categoryId     String?
+  CategoryJob    CategoryJob? @relation(fields: [categoryId], references: [id])
+  Company        Company?     @relation(fields: [companyId], references: [id])
 }
 
-model User {
-  id        String      @id @default(cuid())
-  name      String
-  password  String
-  email     String      @unique
-  Applicant Applicant[]
+model CategoryCompany {
+  id   String @id
+  name String
 }

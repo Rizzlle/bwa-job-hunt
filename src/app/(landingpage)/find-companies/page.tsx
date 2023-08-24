@@ -3,50 +3,22 @@
 import { CATEGORIES_OPTIONS } from "@/constants";
 import ExploreDataContainer from "@/containers/ExploreDataContainer";
 import { formFilterCompanySchema } from "@/lib/form-schema";
+import {
+	CompanyContext,
+	CompanyContextType,
+} from "@/providers/CompanyProvider";
 import { CompanyType, filterFormType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface FindCompaniesPageProps {}
 
-const FILTER_FORMS: filterFormType[] = [
-	{
-		name: "industry",
-		label: "Industry",
-		items: CATEGORIES_OPTIONS,
-	},
-];
-
-const dataDummy: CompanyType[] = [
-	{
-		image: "/images/company2.png",
-		categories: "Marketing",
-		description:
-			"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, deserunt itaque vero",
-		name: "Twitter",
-		totalJobs: 10,
-	},
-	{
-		image: "/images/company2.png",
-		categories: "Marketing",
-		description:
-			"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, deserunt itaque vero",
-		name: "Twitter",
-		totalJobs: 10,
-	},
-	{
-		image: "/images/company2.png",
-		categories: "Marketing",
-		description:
-			"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, deserunt itaque vero",
-		name: "Twitter",
-		totalJobs: 10,
-	},
-];
-
 const FindCompaniesPage: FC<FindCompaniesPageProps> = ({}) => {
+	const { companies, filters, changeFilter, isLoading, resetFilter } =
+		useContext(CompanyContext) as CompanyContextType;
+
 	const formFilter = useForm<z.infer<typeof formFilterCompanySchema>>({
 		resolver: zodResolver(formFilterCompanySchema),
 		defaultValues: {
@@ -54,20 +26,25 @@ const FindCompaniesPage: FC<FindCompaniesPageProps> = ({}) => {
 		},
 	});
 
-	const onSubmit = async (val: z.infer<typeof formFilterCompanySchema>) => {
-		console.log(val);
+	const onSubmit = async (val: z.infer<typeof formFilterCompanySchema>) =>
+		changeFilter(val.industry);
+
+	const onResetFormFilter = () => {
+		formFilter.reset();
+		resetFilter();
 	};
 
 	return (
 		<ExploreDataContainer
 			formFilter={formFilter}
 			onSubmitFilter={onSubmit}
-			filterForms={FILTER_FORMS}
+			onResetFilter={onResetFormFilter}
+			filterForms={filters}
 			title="dream companies"
 			subtitle="Find the dream companies you dream work for"
-			loading={false}
+			loading={isLoading}
 			type="company"
-			data={dataDummy}
+			data={companies}
 		/>
 	);
 };
