@@ -29,8 +29,6 @@ const FormModalApply: FC<FormModalApplyProps> = ({}) => {
 	});
 
 	const onSubmit = (val: z.infer<typeof formApplySchema>) => {
-		console.log("asasa");
-
 		console.log(val);
 	};
 
