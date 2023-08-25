@@ -1,3 +1,6 @@
+"use client"
+
+
 import TitleSection from "@/components/atoms/TitleSection";
 import React, { FC } from "react";
 import JobItem from "./JobItem";

@@ -75,8 +75,6 @@ const DetailJobPage = async ({ params }: { params: { id: string } }) => {
 	const data = await getDetailJob(params.id);
 	const session = await getServerSession(authOptions);
 
-	console.log(data);
-
 	return (
 		<>
 			<div className="bg-slate-100 px-32 pt-10 pb-14">

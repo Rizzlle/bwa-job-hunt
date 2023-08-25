@@ -16,13 +16,60 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import LatestJobs from "@/components/organisms/LatestJobs";
+import prisma from "../../../../../../lib/prisma";
+import { supabasePublicUrl } from "@/lib/supabase";
+import { dateFormat } from "@/lib/utils";
+import { CompanyTeam } from "@prisma/client";
 
-interface DetailCompanyPageProps {}
+type params = {
+	id: string
+}
 
-const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
+interface DetailCompanyPageProps {
+	params: params
+}
+
+async function getDetailCompany(id: string) {
+	const data = await prisma.company.findFirst({
+		where: {id},
+		include: {
+			Companyoverview: true,
+			CompanySocialMedia: true,
+			CompanyTeam: true,
+			_count: {
+				select: {
+					Job: true
+				}
+			}
+		}
+	})
+
+	let imageUrl;
+
+	if (data?.Companyoverview[0].image) {
+		imageUrl = await supabasePublicUrl(data.Companyoverview[0].image, 'company')
+	} else {
+		imageUrl = '/images/company2.png'
+	}
+
+	return {
+		...data,
+		imageUrl
+	}
+}
+
+const DetailCompanyPage: FC<DetailCompanyPageProps> = async ({params}) => {
+
+	const data = await getDetailCompany(params.id)
+
+	console.log(data);
+	
+
 	return (
 		<>
-			<div className="bg-slate-100 px-32 pt-16 pb-14">
+			{data && (
+				<>
+				<div className="bg-slate-100 px-32 pt-16 pb-14">
 				<div className="inline-flex gap-3 text-sm text-muted-foreground">
 					<Link className="hover:underline hover:text-black" href="/">
 						Home
@@ -37,33 +84,33 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 					/{" "}
 					<Link
 						className="hover:underline hover:text-black"
-						href="/detail/company/1"
+						href={`/detail/company/${data.id}`}
 					>
-						Twitter
+						{data.Companyoverview[0].name}
 					</Link>
 				</div>
 
 				<div>
 					<div className="mt-10 inline-flex gap-6 items-start">
 						<Image
-							src="/images/company2.png"
-							alt="/images/company2.png"
+							src={data.imageUrl}
+							alt={data.imageUrl}
 							width={150}
 							height={150}
 						/>
 						<div>
 							<div className="inline-flex gap-4 items-center">
 								<span className="text-4xl font-semibold">
-									Twitter
+								{data?.Companyoverview[0]?.name}
 								</span>
-								<Badge>10 Jobs</Badge>
+								<Badge>{data._count?.Job} Jobs</Badge>
 							</div>
 							<div className="mt-2">
 								<Link
 									href="/"
 									className="font-semibold text-primary"
 								>
-									https://twitter.com
+									{data.Companyoverview[0].website}
 								</Link>
 							</div>
 							<div className="inline-flex items-center gap-10 mt-6">
@@ -78,7 +125,7 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 											Founded
 										</div>
 										<div className="font-semibold">
-											March, 06 2023
+											{dateFormat(data.Companyoverview[0].dateFounded, 'MMMM, DD YYYY')}
 										</div>
 									</div>
 								</div>
@@ -93,7 +140,7 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 											Employees
 										</div>
 										<div className="font-semibold">
-											151-250
+											{data.Companyoverview[0].employee}
 										</div>
 									</div>
 								</div>
@@ -108,7 +155,7 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 											Location
 										</div>
 										<div className="font-semibold">
-											Indonesia
+											{data.Companyoverview[0].location}
 										</div>
 									</div>
 								</div>
@@ -123,7 +170,7 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 											Industry
 										</div>
 										<div className="font-semibold">
-											Advertising
+											{data.Companyoverview[0].industry}
 										</div>
 									</div>
 								</div>
@@ -138,14 +185,7 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 						<div className="text-3xl font-semibold mb-3">
 							Company Profile
 						</div>
-						<div className="text-muted-foreground">
-							<p>
-								Lorem ipsum, dolor sit amet consectetur
-								adipisicing elit. Repellendus ut ea eius, error
-								praesentium, dolorum dolorem maiores officiis
-								amet debitis perspiciatis nam tempore quis
-								voluptatem dolore minus sint ipsam quam.
-							</p>
+						<div className="text-muted-foreground" dangerouslySetInnerHTML={{ __html: data.Companyoverview[0].description }}>
 						</div>
 					</div>
 					<div>
@@ -156,19 +196,19 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 							<div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
 								<FacebookIcon />
 								<span className="text-sm">
-									https://facebook.com/twitter
+									{data.CompanySocialMedia[0].facebook}
 								</span>
 							</div>
 							<div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
 								<TwitterIcon />
 								<span className="text-sm">
-									https://twitter.com/twitter
+								{data.CompanySocialMedia[0].twitter}
 								</span>
 							</div>
 							<div className="p-2 border border-primary text-primary w-max inline-flex items-center gap-3 font-semibold">
 								<LinkedinIcon />
 								<span className="text-sm">
-									https://linkedin.com/twitter
+								{data.CompanySocialMedia[0].linkedin}
 								</span>
 							</div>
 						</div>
@@ -181,9 +221,12 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 					<div className="text-gray-500 text-sm">
 						Learn about the technology and tools that Pattern uses.
 					</div>
-					<div className="mt-5 inline-flex gap-4">
-						<Badge>Javascript</Badge>
-						<Badge>HTML</Badge>
+					<div className="mt-5 flex flex-row items-center flex-wrap gap-4">
+						{
+							data.Companyoverview[0].techStack.map((item: string, i: number) => (
+								<Badge key={item + i}>{item}</Badge>
+							))
+						}
 					</div>
 				</div>
 			</div>
@@ -192,19 +235,19 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 				<div className="my-16">
 					<div className="text-3xl font-semibold mb-4">Teams</div>
 					<div className="grid grid-cols-5 gap-5 mt-5">
-						{[0, 1, 2, 3, 4].map((i: number) => (
+						{data.CompanyTeam.map((data: CompanyTeam) => (
 							<div
-								key={i}
+								key={data.id}
 								className="border border-border px-3 py-5"
 							>
 								<div className="w-16 h-16 rounded-full mx-auto bg-gray-300" />
 
 								<div className="text-center my-4">
 									<div className="font-semibold text-sm">
-										Hariyanto
+										{data.name}
 									</div>
 									<div className="text-gray-500 text-xs">
-										CEO & CO-Founder
+										{data.position}
 									</div>
 								</div>
 
@@ -220,6 +263,8 @@ const DetailCompanyPage: FC<DetailCompanyPageProps> = ({}) => {
 				</div>
 				<Separator />
 			</div>
+				</>
+			)}
 			<div className="px-32">
 				<LatestJobs />
 			</div>
