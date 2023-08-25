@@ -95,15 +95,9 @@ const FormModalApply: FC<FormModalApplyProps> = ({
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				{session ? (
-					<Button size="lg" className="text-lg px-12 py-6">
-						Apply
-					</Button>
-				) : (
-					<Button variant="outline" disabled>
-						Sign In First
-					</Button>
-				)}
+				<Button size="lg" className="text-lg px-12 py-6">
+					Apply
+				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[600px]">
 				<div>
