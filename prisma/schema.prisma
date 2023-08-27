@@ -48,8 +48,8 @@ model CompanyTeam {
 model Companyoverview {
   id          String   @id
   image       String
-  name        String
   website     String
+  name        String
   location    String
   employee    String
   industry    String
@@ -70,8 +70,7 @@ model Job {
   needs          Int
   salaryFrom     String
   salaryTo       String
-  jobCategory    String
-  requiredSkills Json[]
+  requiredSkills String[]
   description    String
   responsibility String
   whoYouAre      String
@@ -79,14 +78,9 @@ model Job {
   benefits       Json
   companyId      String?
   categoryId     String?
+  applicant      Applicant[]
   CategoryJob    CategoryJob? @relation(fields: [categoryId], references: [id])
   Company        Company?     @relation(fields: [companyId], references: [id])
-  applicant     Applicant[]
-}
-
-model CategoryCompany {
-  id   String @id
-  name String
 }
 
 model User {
@@ -98,15 +92,20 @@ model User {
 }
 
 model Applicant {
-  id                String @id @default(cuid())
-  user              User?  @relation(fields: [userId], references: [id])
-  userId            String
-  job               Job?   @relation(fields: [jobId], references: [id])
-  jobId             String
-  previousJobTitle  String
-  phone             String
-  linkedIn          String
-  portfolio         String
-  coverLetter       String
-  resume            String
+  id               String  @id @default(cuid())
+  userId           String?
+  jobId            String?
+  previousJobTitle String
+  phone            String
+  linkedIn         String
+  portfolio        String
+  coverLetter      String
+  resume           String
+  job              Job?    @relation(fields: [jobId], references: [id])
+  user             User?   @relation(fields: [userId], references: [id])
+}
+
+model Industry {
+  id   String @id
+  name String
 }
