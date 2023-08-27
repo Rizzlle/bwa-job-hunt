@@ -14,41 +14,6 @@ import { z } from "zod";
 
 interface FindCompaniesPageProps {}
 
-const FILTER_FORMS: filterFormType[] = [
-	{
-		name: "industry",
-		label: "Industry",
-		items: CATEGORIES_OPTIONS,
-	},
-];
-
-const dataDummy: CompanyType[] = [
-	{
-		image: "/images/company2.png",
-		categories: "Marketing",
-		description:
-			"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, deserunt itaque vero",
-		name: "Twitter",
-		totalJobs: 10,
-	},
-	{
-		image: "/images/company2.png",
-		categories: "Marketing",
-		description:
-			"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, deserunt itaque vero",
-		name: "Twitter",
-		totalJobs: 10,
-	},
-	{
-		image: "/images/company2.png",
-		categories: "Marketing",
-		description:
-			"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perferendis, deserunt itaque vero",
-		name: "Twitter",
-		totalJobs: 10,
-	},
-];
-
 const FindCompaniesPage: FC<FindCompaniesPageProps> = ({}) => {
 	const formFilter = useForm<z.infer<typeof formFilterCompanySchema>>({
 		resolver: zodResolver(formFilterCompanySchema),

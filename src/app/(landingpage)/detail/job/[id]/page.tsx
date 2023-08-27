@@ -50,11 +50,13 @@ async function getDetailJob(id: string) {
 		},
 	});
 
+	const benefits: any = data?.benefits;
+
 	if (!session) {
 		return {
 			...data,
 			image: imageUrl,
-			benefits: data?.benefits,
+			benefits,
 			applicants,
 			needs,
 			isApply: 0,
@@ -64,7 +66,7 @@ async function getDetailJob(id: string) {
 	return {
 		...data,
 		image: imageUrl,
-		benefits: data?.benefits,
+		benefits,
 		applicants,
 		needs,
 		isApply,
@@ -141,7 +143,6 @@ const DetailJobPage = async ({ params }: { params: { id: string } }) => {
 											?.location
 									}
 									id={data.id}
-									isApply={data.isApply}
 								/>
 							)}
 						</>

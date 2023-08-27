@@ -37,8 +37,6 @@ const SignInPage: FC<SignInPageProps> = ({}) => {
 			redirect: false,
 		});
 
-		console.log(authenticated);
-
 		if (authenticated?.error) {
 			toast({
 				title: "Error",
@@ -101,7 +99,7 @@ const SignInPage: FC<SignInPageProps> = ({}) => {
 					</Button>
 
 					<div className="text-gray-500 text-sm mt-6">
-						Don't have an account{" "}
+						Don`t have an account{" "}
 						<Link
 							href="/signup"
 							className="text-primary font-medium"

@@ -27,8 +27,6 @@ const ExploreDataContainer: FC<ExploreDataContainerProps> = ({
 	data,
 	type,
 }) => {
-	console.log(data);
-
 	return (
 		<>
 			<div className="bg-slate-100 px-32 pt-16 pb-14">
