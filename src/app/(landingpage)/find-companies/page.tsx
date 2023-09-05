@@ -1,14 +1,11 @@
 "use client";
 
-import { CATEGORIES_OPTIONS } from "@/constants";
 import ExploreDataContainer from "@/containers/ExploreDataContainer";
 import useCategoryCompanyFilter from "@/hooks/useCategoryCompanyFilter";
 import useCompanies from "@/hooks/useCompanies";
-import useJobs from "@/hooks/useJobs";
 import { formFilterCompanySchema } from "@/lib/form-schema";
-import { CompanyType, filterFormType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
