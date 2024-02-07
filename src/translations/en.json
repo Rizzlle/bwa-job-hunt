@@ -1,0 +1,46 @@
+{
+  "test": "test bahasa inggris",
+  "select-lang": "Choose Language",
+  "show-more": "Show all jobs",
+  "navbar": {
+    "nav-item-1": "Find Jobs",
+    "nav-item-2": "Browse Companies",
+    "btn-signin": "Login",
+    "btn-signup": "Signup"
+  },
+  "hero": {
+    "title-1": "Discover",
+    "title-2": "More than",
+    "title-3": "5000+ Jobs",
+    "desc": "Great platform for the job seeker that searching for new career heights and passionate about startups.",
+    "input-job": "Job Title or keyword",
+    "input-location": "Select a location",
+    "btn-search": "Search my job",
+    "desc-form": "Popular : UI Designer, UX Researcher, Android, Admin"
+  },
+  "client": {
+    "title": "Companies we helped grow"
+  },
+  "category": {
+    "title-1": "Explore by",
+    "title-2": "category",
+    "jobs-available": "jobs available"
+  },
+  "banner": {
+    "title-1": "Start posting",
+    "title-2": "jobs today",
+    "desc": "Start posting job for only $10",
+    "btn-text": "Sign Up for free"
+  },
+  "featured": {
+    "title-1": "Featured",
+    "title-2": "jobs"
+  },
+  "latest": {
+    "title-1": "Latest",
+    "title-2": "jobs open"
+  },
+  "explore-job": {
+    "key1": "aa"
+  }
+}
